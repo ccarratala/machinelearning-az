@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 11 18:38:15 2019
-
-@author: juangabriel
-"""
-
 # SVR
 
 # Cómo importar las librerías
@@ -19,28 +11,31 @@ X = dataset.iloc[:, 1:2].values
 y = dataset.iloc[:, 2].values
 
 
-# Dividir el data set en conjunto de entrenamiento y conjunto de testing
-"""
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
-"""
+'''En este caso no hace falta dividir el dataset en subgrupos'''
 
-# Escalado de variables
+# Importante: Escalado de variables
 from sklearn.preprocessing import StandardScaler
-sc_X = StandardScaler()
-sc_y = StandardScaler()
-X = sc_X.fit_transform(X)
-y = sc_y.fit_transform(y.reshape(-1,1))
+# creamos 2 escaladores porqu las escalas para la X y la y son diferentes
+sc_X = StandardScaler()  
+sc_y = StandardScaler()  
+X = sc_X.fit_transform(X)  # stand las X
+y = sc_y.fit_transform(y.reshape(-1,1))  # stand la y
+                        # reshape para que sea vector col y no de error
 
-# Ajustar la regresión con el dataset
+
+# Ajustar modelo SVR con el dataset
 from sklearn.svm import SVR
-regression = SVR(kernel = "rbf")
+regression = SVR(kernel = "rbf") # gaussian kernel (depende de la distribucion de datos)
 regression.fit(X, y)
 
 # Predicción de nuestros modelos con SVR
+# hay que escalar el nuevo ejemplo tambien
 y_pred = sc_y.inverse_transform(regression.predict(sc_X.transform(np.array([[6.5]]))))
+# usamos inverse_transform para que nos devuelva la y sin escalar (para entenderlo mejor)
+# ponemos np.array por si queremos predecir mas de un ejemplo (si no, no hace falta)
 
 # Visualización de los resultados del SVR
+''' Intentar poner los ejes con invers_transform '''
 X_grid = np.arange(min(X), max(X), 0.1)
 X_grid = X_grid.reshape(len(X_grid), 1)
 plt.scatter(X, y, color = "red")
@@ -50,3 +45,5 @@ plt.xlabel("Posición del empleado")
 plt.ylabel("Sueldo (en $)")
 plt.show()
 
+''' No predice bien para el ultimo valor porque lo toma como un outlier, 
+el modelo puede crecer a la misma velocidad que el dataset '''
