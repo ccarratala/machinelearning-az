@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Mar  3 13:10:07 2019
-
-@author: juangabriel
-"""
-
 # Regresión Lineal Múltiple
 
 # Cómo importar las librerías
