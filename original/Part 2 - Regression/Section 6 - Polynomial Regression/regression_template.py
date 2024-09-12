@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar  5 21:34:14 2019
-
-@author: juangabriel
-"""
-
 # Plantilla de Regresión
 
 # Cómo importar las librerías
