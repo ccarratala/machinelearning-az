@@ -35,11 +35,26 @@ y_pred = sc_y.inverse_transform(regression.predict(sc_X.transform(np.array([[6.5
 # ponemos np.array por si queremos predecir mas de un ejemplo (si no, no hace falta)
 
 # Visualización de los resultados del SVR
-''' Intentar poner los ejes con invers_transform '''
 X_grid = np.arange(min(X), max(X), 0.1)
 X_grid = X_grid.reshape(len(X_grid), 1)
 plt.scatter(X, y, color = "red")
 plt.plot(X_grid, regression.predict(X_grid), color = "blue")
+plt.title("Modelo de Regresión (SVR)")
+plt.xlabel("Posición del empleado")
+plt.ylabel("Sueldo (en $)")
+plt.show()
+
+''' Intentar poner los ejes con invers_transform '''
+X_orig = sc_X.inverse_transform(X)
+y_orig = sc_y.inverse_transform(y)
+
+X_grid2 = np.arange(min(X_orig), max(X_orig), 0.1)
+X_grid2 = X_grid2.reshape(len(X_grid2), 1)
+
+plt.scatter(X_orig, y_orig, color = "red")
+plt.plot(X_grid2, sc_y.inverse_transform(regression.predict
+                (sc_X.transform(X_grid2)).reshape(-1, 1)), color = "blue")
+
 plt.title("Modelo de Regresión (SVR)")
 plt.xlabel("Posición del empleado")
 plt.ylabel("Sueldo (en $)")
