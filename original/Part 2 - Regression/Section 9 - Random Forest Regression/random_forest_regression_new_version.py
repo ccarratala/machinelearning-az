@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 11 19:53:04 2019
-
-@author: juangabriel
-"""
-
 # Regresión Bosques Aleatorios
 
 # Cómo importar las librerías
@@ -31,17 +23,22 @@ sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)"""
 
+
 # Ajustar el Random Forest con el dataset
 from sklearn.ensemble import RandomForestRegressor
 regression = RandomForestRegressor(n_estimators = 300, random_state = 0)
+# n_estimators es el numero de arboles que compone el forest (default = 10)
 regression.fit(X, y)
 
-# Predicción de nuestros modelos con Random Forest
+
+# Predicción de nuevo ejemplo con Random Forest
 y_pred = regression.predict([[6.5]])
 
+
 # Visualización de los resultados del Random Forest
-X_grid = np.arange(min(X), max(X), 0.01)
+X_grid = np.arange(min(X), max(X), 0.1) 
 X_grid = X_grid.reshape(len(X_grid), 1)
+
 plt.scatter(X, y, color = "red")
 plt.plot(X_grid, regression.predict(X_grid), color = "blue")
 plt.title("Modelo de Regresión con Random Forest")
@@ -49,4 +46,8 @@ plt.xlabel("Posición del empleado")
 plt.ylabel("Sueldo (en $)")
 plt.show()
 
+''' Si el escalon es plano indica que todos los arboles han decidido la misma media,
+    si hay más desnivel indica que hay diferencia, habra mas pasos de un punto a otro.
+    Aunque aumentes el numero de arboles, los escalones no cambian, no van a converger
+    a la misma media por poner mas, pero las predicciones seran mejores'''
 
