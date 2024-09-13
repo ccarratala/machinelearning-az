@@ -1,13 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 12 16:38:08 2019
-
-@author: juangabriel
-"""
-
 # Plantilla de Clasificación
-
 
 # Cómo importar las librerías
 import numpy as np
