@@ -1,13 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 14 19:32:40 2019
-
-@author: juangabriel
-"""
-
 # SVM
-
 
 # Cómo importar las librerías
 import numpy as np
@@ -16,15 +7,12 @@ import pandas as pd
 
 # Importar el data set
 dataset = pd.read_csv('Social_Network_Ads.csv')
-
 X = dataset.iloc[:, [2,3]].values
 y = dataset.iloc[:, 4].values
-
 
 # Dividir el data set en conjunto de entrenamiento y conjunto de testing
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
-
 
 # Escalado de variables
 from sklearn.preprocessing import StandardScaler
@@ -35,7 +23,7 @@ X_test = sc_X.transform(X_test)
 
 # Ajustar el SVM en el Conjunto de Entrenamiento
 from sklearn.svm import SVC
-classifier = SVC(kernel = "linear", random_state = 0)
+classifier = SVC(kernel = "linear", random_state = 0)  # usamos kernel linear para dividir con limite lineal
 classifier.fit(X_train, y_train)
 
 
@@ -45,6 +33,8 @@ y_pred  = classifier.predict(X_test)
 # Elaborar una matriz de confusión
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
 from matplotlib.colors import ListedColormap
