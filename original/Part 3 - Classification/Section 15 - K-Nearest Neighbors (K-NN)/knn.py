@@ -1,13 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 14 18:20:58 2019
-
-@author: juangabriel
-"""
-
 # K - Nearest Neighbors (K-NN)
-
 
 # Cómo importar las librerías
 import numpy as np
@@ -33,9 +24,12 @@ X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
 
+
 # Ajustar el clasificador en el Conjunto de Entrenamiento
 from sklearn.neighbors import KNeighborsClassifier
 classifier = KNeighborsClassifier(n_neighbors = 5, metric = "minkowski", p = 2)
+# por defecto es k=5 / metric (medida de distancia) por defecto es none
+# si usamos minkowski se pone la p=2 para usar la euclidea
 classifier.fit(X_train, y_train)
 
 # Predicción de los resultados con el Conjunto de Testing
@@ -44,6 +38,7 @@ y_pred  = classifier.predict(X_test)
 # Elaborar una matriz de confusión
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
+print(cm)
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
 from matplotlib.colors import ListedColormap
