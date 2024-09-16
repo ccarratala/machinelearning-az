@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 19 18:53:21 2019
-
-@author: juangabriel
-"""
-
 # Naïve Bayes
 
 
@@ -16,15 +8,12 @@ import pandas as pd
 
 # Importar el data set
 dataset = pd.read_csv('Social_Network_Ads.csv')
-
 X = dataset.iloc[:, [2,3]].values
 y = dataset.iloc[:, 4].values
-
 
 # Dividir el data set en conjunto de entrenamiento y conjunto de testing
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
-
 
 # Escalado de variables
 from sklearn.preprocessing import StandardScaler
@@ -32,10 +21,12 @@ sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
+
 # Ajustar el clasificador en el Conjunto de Entrenamiento
 from sklearn.naive_bayes import GaussianNB
-classifier = GaussianNB()
+classifier = GaussianNB()    # no tiene parametros
 classifier.fit(X_train, y_train)
+
 
 # Predicción de los resultados con el Conjunto de Testing
 y_pred  = classifier.predict(X_test)
@@ -43,6 +34,8 @@ y_pred  = classifier.predict(X_test)
 # Elaborar una matriz de confusión
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
 from matplotlib.colors import ListedColormap
@@ -79,3 +72,4 @@ plt.xlabel('Edad')
 plt.ylabel('Sueldo Estimado')
 plt.legend()
 plt.show()
+
