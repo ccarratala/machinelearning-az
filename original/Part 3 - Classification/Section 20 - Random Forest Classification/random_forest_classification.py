@@ -1,12 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Mar 23 11:55:27 2019
-
-@author: juangabriel
-"""
-
 # Random Forest Classification
+
 
 # Cómo importar las librerías
 import numpy as np
@@ -15,17 +8,14 @@ import pandas as pd
 
 # Importar el data set
 dataset = pd.read_csv('Social_Network_Ads.csv')
-
 X = dataset.iloc[:, [2,3]].values
 y = dataset.iloc[:, 4].values
-
 
 # Dividir el data set en conjunto de entrenamiento y conjunto de testing
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
 
-
-# Escalado de variables
+# Escalado de variables (No hace falta, si no escalamos hay que cambiar el step en el grafico)
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
@@ -37,12 +27,15 @@ from sklearn.ensemble import RandomForestClassifier
 classifier = RandomForestClassifier(n_estimators = 10, criterion = "entropy", random_state = 0)
 classifier.fit(X_train, y_train)
 
+
 # Predicción de los resultados con el Conjunto de Testing
 y_pred  = classifier.predict(X_test)
 
 # Elaborar una matriz de confusión
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
 from matplotlib.colors import ListedColormap
