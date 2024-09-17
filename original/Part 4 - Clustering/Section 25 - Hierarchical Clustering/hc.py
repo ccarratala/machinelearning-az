@@ -1,12 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Mar 27 13:15:02 2019
-
-@author: juangabriel
-"""
-
 # Clustering Jerárquico
+
 
 # Importar las librerías
 import numpy as np
@@ -21,18 +14,22 @@ X = dataset.iloc[:, [3, 4]].values
 # Utilizar el dendrograma para encontrar el número óptimo de clusters
 import scipy.cluster.hierarchy as sch
 dendrogram = sch.dendrogram(sch.linkage(X, method = "ward"))
+# linkage porque queremos unir datos (aglomerativo), X los datos
+# ward minimiza var entre los puntos dentro de los clusters
 plt.title("Dendrograma")
 plt.xlabel("Clientes")
 plt.ylabel("Distancia Euclídea")
 plt.show()
+# salen 5 clusters
 
 # Ajustar el clustetring jerárquico a nuestro conjunto de datos
 from sklearn.cluster import AgglomerativeClustering
 hc = AgglomerativeClustering(n_clusters = 5, affinity = "euclidean", linkage = "ward")
-y_hc = hc.fit_predict(X)
+# affinity = distancia
+y_hc = hc.fit_predict(X)  # se entrena y predice al mismo tiempo
 
 
-# Visualización de los clusters
+# Visualización de los clusters (mismas lineas que K-means)
 plt.scatter(X[y_hc == 0, 0], X[y_hc == 0, 1], s = 100, c = "red", label = "Cautos")
 plt.scatter(X[y_hc == 1, 0], X[y_hc == 1, 1], s = 100, c = "blue", label = "Estandard")
 plt.scatter(X[y_hc == 2, 0], X[y_hc == 2, 1], s = 100, c = "green", label = "Objetivo")
@@ -43,3 +40,4 @@ plt.xlabel("Ingresos anuales (en miles de $)")
 plt.ylabel("Puntuación de Gastos (1-100)")
 plt.legend()
 plt.show()
+
