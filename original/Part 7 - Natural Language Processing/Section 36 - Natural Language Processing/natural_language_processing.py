@@ -29,7 +29,7 @@ for i in range(0, 1000):    # hay 0-999 reviews en el dataset
     review = [ps.stem(word) for word in review if not word in set(stopwords.words('english'))]
     # recorre todas las palabras y crea nueva lsita con aquellas que NO estén en el diccionario stopwords (si fuera spanish se cambia)
     review = ' '.join(review)    # volver a crear cadena de texto = combinar con espacio = ' '
-    corpus.append(review)    # guardamos esto en la var corpus (cuerpo) = mism len que el dataset
+    corpus.append(review)    # guardamos esto en la var corpus (cuerpo) = misma len que el dataset
 
 
 # Crear el Bag of Words (las que aparecen con mayor freq)
