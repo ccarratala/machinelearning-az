@@ -40,9 +40,13 @@ classifier.add(Conv2D(filters = 32, kernel_size = (3, 3),
 # 2x2 es por defecto (no hace falta ponerlo) es el size recomendado
 classifier.add(MaxPooling2D(pool_size = (2,2)))  
 
+# Antes de añadir estas capas la precision no superaba el 80% (bad)
+# una solucion sería añadir más capas de conv o en el paso 4 hacerla más densa
 # Una segunda capa de convolución y max pooling
 classifier.add(Conv2D(filters = 32, kernel_size = (3, 3), activation = "relu"))
 classifier.add(MaxPooling2D(pool_size = (2,2)))
+
+# Practica habitual: dos filtros de conv de 32 y una de 64
 
 
 # Paso 3 - Flattening (pasa a 1D = nodos de la CNN)
@@ -52,6 +56,7 @@ classifier.add(Flatten())
 # Paso 4 - Full Connection (hidden y output layers)
 classifier.add(Dense(units = 128, activation = "relu"))
 # units = num de nodos hidden (aprox media de nodos input + output - recomendacion usar potencia de 2)
+
 classifier.add(Dense(units = 1, activation = "sigmoid"))
 # clasificaicon binaria = con poner 1 vale
 # si queremos saber la prob de perro o gato = usar softmax y poner 2
@@ -77,7 +82,7 @@ train_datagen = ImageDataGenerator(
         zoom_range=0.2,  # % de zoom
         horizontal_flip=True)  # voltea img
 
-test_datagen = ImageDataGenerator(rescale=1./255)
+test_datagen = ImageDataGenerator(rescale=1./255)    # estas no se modifican porque tiene que ser capaz de identificarlas
 
 # carga de carpetas (poner el directorio donde esten)
 training_dataset = train_datagen.flow_from_directory('dataset/training_set',
@@ -89,7 +94,8 @@ testing_dataset = test_datagen.flow_from_directory('dataset/test_set',
                                                 target_size=(64, 64),
                                                 batch_size=32,
                                                 class_mode='binary')
-# Ajustamos el modelo con train_set
+
+# Ajustamos el modelo con train_set con el modelo CNN creado 
 classifier.fit_generator(training_dataset,
                         steps_per_epoch=8000,    # num img que toma por pasada (ponemos el total que tenemos)
                         epochs=25,    
