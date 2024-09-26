@@ -23,6 +23,7 @@ labelencoder_X_1 = LabelEncoder()
 X[:, 1] = labelencoder_X_1.fit_transform(X[:, 1])
 labelencoder_X_2 = LabelEncoder()
 X[:, 2] = labelencoder_X_2.fit_transform(X[:, 2])
+
 ct = ColumnTransformer(
     [('one_hot_encoder', OneHotEncoder(categories='auto'), [2])],   
     remainder='passthrough'                        
@@ -40,7 +41,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 from xgboost import XGBClassifier
 classifier = XGBClassifier()
 classifier.fit(X_train, y_train)
-
 
 # Predicción de los resultados con el Conjunto de Testing
 y_pred  = classifier.predict(X_test)
