@@ -1,13 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May  2 16:47:17 2019
-
-@author: juangabriel
-"""
-
 # k - Fold Cross Validation
-
+''' Usamos el script del SVM '''
 
 # Cómo importar las librerías
 import numpy as np
@@ -16,7 +8,6 @@ import pandas as pd
 
 # Importar el data set
 dataset = pd.read_csv('Social_Network_Ads.csv')
-
 X = dataset.iloc[:, [2,3]].values
 y = dataset.iloc[:, 4].values
 
@@ -46,11 +37,14 @@ y_pred  = classifier.predict(X_test)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 
+
 # Aplicar k-fold cross validation
 from sklearn.model_selection import cross_val_score
 accuracies = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10)
+# devuelve 10 (cv) evaluaciones del rendimiento del modelo, calculamos media y sd
 accuracies.mean()
-accuracies.std()
+accuracies.std()  # cuanto menor sea mejor, 0.2 preocupante
+
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
 from matplotlib.colors import ListedColormap
