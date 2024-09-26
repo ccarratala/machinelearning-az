@@ -1,21 +1,14 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May  1 13:01:48 2019
-
-@author: juangabriel
-"""
-
 # LDA
+
 
 # Cómo importar las librerías
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+
 # Importar el data set
 dataset = pd.read_csv('Wine.csv')
-
 X = dataset.iloc[:, 0:13].values
 y = dataset.iloc[:, 13].values
 
@@ -34,8 +27,8 @@ X_test = sc_X.transform(X_test)
 
 # Reducir la dimensión del dataset con LDA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-lda = LDA(n_components = 2)
-X_train = lda.fit_transform(X_train, y_train)
+lda = LDA(n_components = 2)  # num direcciones de discriminacion
+X_train = lda.fit_transform(X_train, y_train)  # supervisado
 X_test = lda.transform(X_test)
 
 
@@ -47,9 +40,12 @@ classifier.fit(X_train, y_train)
 # Predicción de los resultados con el Conjunto de Testing
 y_pred  = classifier.predict(X_test)
 
+
 # Elaborar una matriz de confusión
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
+# mejor prediccion que PCA en este ejemplo
+
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
 from matplotlib.colors import ListedColormap
