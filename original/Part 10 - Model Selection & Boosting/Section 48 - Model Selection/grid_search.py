@@ -1,12 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May  2 21:09:58 2019
-
-@author: juangabriel
-"""
-
 # Grid Search
+''' A partir del script K-fold Cross Validation '''
+
 
 # Cómo importar las librerías
 import numpy as np
@@ -15,7 +9,6 @@ import pandas as pd
 
 # Importar el data set
 dataset = pd.read_csv('Social_Network_Ads.csv')
-
 X = dataset.iloc[:, [2,3]].values
 y = dataset.iloc[:, 4].values
 
@@ -45,28 +38,33 @@ y_pred  = classifier.predict(X_test)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 
+
 # Aplicar k-fold cross validation
 from sklearn.model_selection import cross_val_score
 accuracies = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10)
 accuracies.mean()
 accuracies.std()
 
+
 # Aplicar la mejora de Grid Search para otimizar el modelo y sus parámetros
 from sklearn.model_selection import GridSearchCV
+# dicts de parametros que hay que utilizar dentro del algoritmo, creamos parrilla de posibles valores
+# la C por defecto es = 1 // meter los parametros que vayan unidos a los diferentes kernels
 parameters = [{'C': [1, 10, 100, 1000],'kernel': ['linear']},
               {'C': [1, 10, 100, 1000],'kernel': ['rbf'], 'gamma': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
               ]
-grid_search = GridSearchCV(estimator = classifier,
-                           param_grid = parameters, 
-                           scoring = 'accuracy',
-                           cv = 10,
-                           n_jobs = -1)
+
+grid_search = GridSearchCV(estimator = classifier,  # modelo anterior
+                           param_grid = parameters,   # parrilla de busqueda
+                           scoring = 'accuracy',    # metrica de rendimiento (varia segun el modelo)
+                           cv = 10,    # num de k-fold (si el dataset es muy grande, seria mejor aumenatarlo por el tiempo)
+                           n_jobs = -1)    # para aprovechar potencia del pc, utiliza todos los cores menos 1 (sistma operativo)
 
 grid_search = grid_search.fit(X_train, y_train)
 
-best_accuracy = grid_search.best_score_
+best_accuracy = grid_search.best_score_    # precision media de la mejor combinacion
+best_parameters = grid_search.best_params_  # mejores valores de los parametros
 
-best_parameters = grid_search.best_params_
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
 from matplotlib.colors import ListedColormap
