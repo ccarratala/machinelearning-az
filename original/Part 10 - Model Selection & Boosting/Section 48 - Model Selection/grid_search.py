@@ -64,6 +64,8 @@ grid_search = grid_search.fit(X_train, y_train)
 
 best_accuracy = grid_search.best_score_    # precision media de la mejor combinacion
 best_parameters = grid_search.best_params_  # mejores valores de los parametros
+''' Una vez sepamos estos podemo sreajustar la parrilla para acercarnos más, es decir si el mejor gamma=0.5, 
+expandimos las opciones entorno a este valor (los que están puestos) y así sucesivamente '''
 
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
