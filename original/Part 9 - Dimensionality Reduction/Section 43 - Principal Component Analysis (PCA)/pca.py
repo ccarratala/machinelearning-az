@@ -1,23 +1,16 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May  1 12:06:32 2019
+# PCA 
 
-@author: juangabriel
-"""
-
-# ACP 
 
 # Cómo importar las librerías
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+
 # Importar el data set
 dataset = pd.read_csv('Wine.csv')
-
 X = dataset.iloc[:, 0:13].values
-y = dataset.iloc[:, 13].values
+y = dataset.iloc[:, 13].values  # tipo de cliente al que va dirigido ese vino (1,2,3)
 
 
 # Dividir el data set en conjunto de entrenamiento y conjunto de testing
@@ -25,18 +18,24 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
 
-# Escalado de variables
+# IMPORTANTE: Escalado de variables = normalizar
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
-# Reducir la dimensión del dataset con ACP
+
+# Reducir la dimensión del dataset con PCA
 from sklearn.decomposition import PCA
-pca = PCA(n_components = 2)
+pca = PCA(n_components = 2)  # num de var que queremos sacar (2 para hacer representacion)
+# normalmente con 3/4 nos explica bastante
 X_train = pca.fit_transform(X_train)
 X_test = pca.transform(X_test)
-explained_variance = pca.explained_variance_ratio_
+explained_variance = pca.explained_variance_ratio_  
+# var explicada x PC, si podemos n_components= None podemos ver todos los PCs y elegir 
+# el num con max explained (sumamos las var)
+# recomendacion restart kernel y run all si cambiamos n_components
+
 
 # Ajustar el modelo de Regresión Logística en el Conjunto de Entrenamiento
 from sklearn.linear_model import LogisticRegression
@@ -46,9 +45,11 @@ classifier.fit(X_train, y_train)
 # Predicción de los resultados con el Conjunto de Testing
 y_pred  = classifier.predict(X_test)
 
-# Elaborar una matriz de confusión
+
+# Elaborar una matriz de confusión (3x3, no hay Falsos positivos/negativos)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
+
 
 # Representación gráfica de los resultados del algoritmo en el Conjunto de Entrenamiento
 from matplotlib.colors import ListedColormap
